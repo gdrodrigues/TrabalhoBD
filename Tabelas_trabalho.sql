@@ -25,8 +25,7 @@ create table if not exists gerente(
 	CPF int(11),
 	
 	constraint pk_gerente primary key(CPF),
-	constraint fk_gerente_funcionario foreign key(CPF) references funcionario(CPF)
-		on delete cascade on update cascade
+	constraint fk_gerente_funcionario foreign key(CPF) references funcionario(CPF) --updates e deletes feito via trigger
 	
 );
 
@@ -43,7 +42,7 @@ create table if not exists conta(
 
 create table agencia(
 	id serial,
-	
+	localizacao varchar(100),
 	constraint pk_agencia primary key(id)
 )
 
@@ -61,11 +60,11 @@ CREATE TABLE if not exists emprestimo(
  
 	CONSTRAINT fk1_emp_cliente
  		foreign key (cpf_cliente) references cliente(CPF)
-		on delete cascade on update cascade, 
+		on delete restrict on update restrict, 
 	
 	CONSTRAINT fk2_emp_agencia
  		foreign key (id_agencia) references agencia(id),
-		on delete cascade on update cascade,
+		on delete restrict on update restrict,
 	
 	CHECK (valor>200)
 );
@@ -133,5 +132,40 @@ create table if not exists cartao (
 );
 
 create table if not exists movimentacao_cart(
+	id_mov serial unique not null,
+	cpf_cliente1 int not null,
+	id_agencia1 int not null,
+	cpf_cliente2 int,
+	id_agencia2 int,
+	valor integer not null,
+	tipo varchar(20) not null,
+	data_mov date not null,
 	
+	CONSTRAINT pk_movimentacao_cart
+ 		primary key (id_mov),
+ 
+	CONSTRAINT fk1_movcart_cliente
+ 		foreign key (cpf_cliente1) references cliente(CPF)
+		on delete on update cascade,
+	
+	CONSTRAINT fk2_movcart_agencia1
+ 		foreign key (id_agencia1) references agencia(id)
+		on delete cascade on update cascade,
+	
+	CONSTRAINT fk3_movcart_cliente
+ 		foreign key (cpf_cliente2) references cliente(CPF)
+		on delete set null on update cascade,
+	
+	CONSTRAINT fk4_movcart_agencia2
+ 		foreign key (id_agencia2) references agencia(id)
+		on delete cascade on update cascade
 )
+
+
+
+
+
+
+
+
+
