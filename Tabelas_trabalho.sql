@@ -32,6 +32,7 @@ create table if not exists gerente(
 create table if not exists conta(
 	id serial,
 	gerente integer not null,
+	limite float not null,
 	
 	constraint pk_conta primary key (id),
 	
@@ -160,11 +161,6 @@ create table if not exists movimentacao_cart(
  		foreign key (id_agencia2) references agencia(id)
 		on delete cascade on update cascade
 )
-
-
-
-
-
 
 
 
