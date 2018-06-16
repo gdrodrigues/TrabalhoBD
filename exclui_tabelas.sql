@@ -1,0 +1,11 @@
+drop table possui;
+drop table cartao;
+drop table conta;
+drop table gerente;
+drop table movimentacao_emp;
+drop table movimentacao_cart;
+drop table emprestimo;
+drop table agencia;
+drop table dependente;
+drop table cliente;
+drop table funcionario;
