@@ -7,6 +7,12 @@ create table if not exists cliente(
 	constraint pk_cliente primary key(CPF)
 );
 
+create table agencia(
+	id serial unique,
+	localizacao varchar(100) not null unique,
+	constraint pk_agencia primary key(id)
+);
+
 create table if not exists funcionario(
 	CPF bigint not null unique,
 	nome varchar(30) not null,
@@ -34,6 +40,8 @@ create table if not exists gerente(
 	
 );
 
+
+
 create table if not exists conta(
 	id serial,
 	gerente bigint not null,
@@ -48,11 +56,8 @@ create table if not exists conta(
 );
 
 
-create table agencia(
-	id serial unique,
-	localizacao varchar(100) set null unique,
-	constraint pk_agencia primary key(id)
-);
+
+
 
 create table if not exists emprestimo(
 	id_emp serial unique not null,
