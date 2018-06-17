@@ -110,7 +110,9 @@ CREATE TABLE if not exists movimentacao_emp(
 	
 	CONSTRAINT fk4_movemp_agencia2
  		foreign key (id_agencia2) references agencia(id)
-		on delete cascade on update cascade
+		on delete cascade on update cascade,
+	
+	CHECK (valor>0)
 );
 
 create table if not exists possui_conta(
