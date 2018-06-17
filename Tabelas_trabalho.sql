@@ -46,6 +46,7 @@ create table if not exists conta(
 	id serial,
 	gerente bigint not null,
 	id_agencia int not null,
+	saldo bigint not null DEFAULT '0',
 	
 	constraint pk_conta primary key (id),
 	
@@ -84,9 +85,9 @@ create table if not exists emprestimo(
 
 CREATE TABLE if not exists movimentacao_emp( 
 	id_mov serial unique not null,
-	cpf_cliente1 bigint not null,
+	conta_cliente1 bigint not null,
 	id_agencia1 int not null,
-	cpf_cliente2 bigint,
+	conta_cliente2 bigint,
 	id_agencia2 int,
 	valor integer not null,
 	tipo varchar(20) not null,
@@ -96,7 +97,7 @@ CREATE TABLE if not exists movimentacao_emp(
  		primary key (id_mov),
  
 	CONSTRAINT fk1_movemp_cliente
- 		foreign key (cpf_cliente1) references cliente(CPF)
+ 		foreign key (conta_cliente1) references conta(id)
 		on delete cascade on update cascade,
 	
 	CONSTRAINT fk2_movemp_agencia1
@@ -104,7 +105,7 @@ CREATE TABLE if not exists movimentacao_emp(
 		on delete cascade on update cascade,
 	
 	CONSTRAINT fk3_movemp_cliente
- 		foreign key (cpf_cliente2) references cliente(CPF)
+ 		foreign key (conta_cliente2) references conta(id)
 		on delete cascade on update cascade,
 	
 	CONSTRAINT fk4_movemp_agencia2
