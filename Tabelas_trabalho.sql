@@ -17,7 +17,7 @@ create table if not exists funcionario(
 	salario float not null,
 	v_aliment float not null DEFAULT '450',
 	p_saude float not null DEFAULT '500',
-	n_dependentes int,
+	n_dependentes int DEFAULT '0',
 	
 	constraint pk_funcionario primary key(CPF),
 
@@ -74,7 +74,7 @@ create table if not exists emprestimo(
  		foreign key (id_agencia) references agencia(id)
 		on delete restrict on update restrict,
 	
-	CHECK (valor>200)
+	CHECK (valor>=200)
 );
 
 CREATE TABLE if not exists movimentacao_emp( 
@@ -172,7 +172,3 @@ create table if not exists movimentacao_cart(
 		on delete cascade on update cascade
 	
 );
-
-
-
-
