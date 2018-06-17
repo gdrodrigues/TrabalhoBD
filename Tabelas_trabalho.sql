@@ -141,7 +141,7 @@ create table if not exists dependente(
 create table if not exists cartao (
 	numero int not null,
 	id_conta int not null,
-	
+	limite real not null,
 	constraint pk_cartao primary key(numero),
 	
 	constraint fk_cartao_conta foreign key(id_conta) references conta(id)
@@ -150,7 +150,6 @@ create table if not exists cartao (
 create table if not exists possui_cartao(
 	id_cliente bigint not null,
 	numero_cartao int not null,
-	limite real not null,
 	saldo_cartao real not null,
 
 	constraint pk_possui_cartao primary key (id_cliente, numero_cartao),
