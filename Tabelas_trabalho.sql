@@ -151,6 +151,7 @@ create table if not exists possui_cartao(
 	id_cliente bigint not null,
 	numero_cartao int not null,
 	limite real not null,
+	saldo_cartao real not null,
 
 	constraint pk_possui_cartao primary key (id_cliente, numero_cartao),
 	
@@ -164,7 +165,6 @@ create table if not exists possui_cartao(
 create table if not exists movimentacao_cart(
 	id_mov serial unique not null,
 	cpf_cliente bigint not null,
-	num_conta int not null,
 	valor integer not null,
 	descricao varchar(100),
 	data_mov date not null,
@@ -174,9 +174,5 @@ create table if not exists movimentacao_cart(
  
 	CONSTRAINT fk1_movcart_cliente
  		foreign key (cpf_cliente) references cliente(CPF)
-		on delete cascade on update cascade,
-	CONSTRAINT fk2_conta
-		foreign key (num_conta) references conta(id)
-		on delete cascade on update cascade
-	
+		on delete cascade on update cascade	
 );
