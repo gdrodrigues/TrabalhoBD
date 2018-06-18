@@ -47,6 +47,7 @@ create table if not exists conta(
 	gerente bigint not null,
 	id_agencia int not null,
 	saldo bigint not null DEFAULT '0',
+	limite bigint not null DEFAULT '1000',
 	
 	constraint pk_conta primary key (id),
 	
