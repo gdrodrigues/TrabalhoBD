@@ -3,20 +3,21 @@ CREATE OR REPLACE FUNCTION n_dependentes() returns TRIGGER AS $$
 -- trigger que garante o valor correto do atributo derivado "n_dependentes" da entidade funcionario
 
 DECLARE
-	c_funcionario cursor for select*from funcionario where funcionario.cpf=new.cpf
+	func record; -- funcionario
 	limite_gerente int = 4;
 	limite_comum int =2;
 	n_dep int;
 BEGIN
-	
+	select * into func from funcionario where funcionario.cpf=new.id_funcionario;
 	if(TG_OP = 'INSERT') then
 
-		select n_dependentes into n_dep from funcionario as f where f.cpf = new.id_funcionario;
-		if (c_funcionario.cargo='gerente'and n_dep<limite_gerente or c_funcionario.cargo='comum' and n_dep<limite_comum) then
+		select n_dependentes into n_dep from funcionario where funcionario.cpf = new.id_funcionario;
+		
+		if ((func.cargo='gerente' and n_dep<limite_gerente) or (func.cargo='comum' and n_dep<limite_comum)) then
 			UPDATE funcionario SET n_dependentes = n_dependentes+1 WHERE cpf=new.id_funcionario; 
 			return new;
 		else
-			raise exception 'O funcionário já atingiu o limite de dependentes';
+			raise exception 'O funcionário já atingiu o limite de dependentes %, %', n_dep, func.cargo;
 			return null;
 		end if;
 	elsif (TG_OP = 'DELETE') then
