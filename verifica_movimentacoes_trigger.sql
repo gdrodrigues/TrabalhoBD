@@ -17,6 +17,15 @@ begin
 			return null;
 		end if;
 	
+	elsif new.tipo = 'emprestimo' then
+		if r1.saldo>0 then
+			raise exception 'O emprestimo só pode ser feito por conta com saldo<=0';
+			return null;
+		elsif new.valor>r1.limite then
+			raise exception 'valor maior que seu limite';
+			return null;
+		end if;
+	
 	elsif new.tipo = 'deposito' then
 		update conta set saldo = saldo+new.valor where id=new.conta_cliente1;
 		return new;
