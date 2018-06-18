@@ -57,32 +57,6 @@ create table if not exists conta(
 );
 
 
-
-
-
-create table if not exists emprestimo(
-	id_emp serial unique not null,
-	cpf_cliente bigint not null,
-	id_agencia int not null,
-	valor integer not null,
-	data_emp date not null,
-	juro_aomes real,
-
-
-	CONSTRAINT pk_emprestimo
- 	primary key (id_emp),
- 
-	CONSTRAINT fk1_emp_cliente
- 		foreign key (cpf_cliente) references cliente(CPF)
-		on delete restrict on update restrict, 
-	
-	CONSTRAINT fk2_emp_agencia
- 		foreign key (id_agencia) references agencia(id)
-		on delete restrict on update restrict,
-	
-	CHECK (valor>=200)
-);
-
 CREATE TABLE if not exists movimentacao_emp( 
 	id_mov serial unique not null,
 	conta_cliente1 bigint not null,
