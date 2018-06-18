@@ -8,9 +8,9 @@ DECLARE
 	limite_comum int =2;
 	n_dep int;
 BEGIN
-	select * into func from funcionario where funcionario.cpf=new.id_funcionario;
+	
 	if(TG_OP = 'INSERT') then
-
+		select * into func from funcionario where funcionario.cpf=new.id_funcionario;
 		select n_dependentes into n_dep from funcionario where funcionario.cpf = new.id_funcionario;
 		
 		if ((func.cargo='gerente' and n_dep<limite_gerente) or (func.cargo='comum' and n_dep<limite_comum)) then
@@ -31,10 +31,12 @@ BEGIN
 		return old;
 		
 	elsif (TG_OP = 'UPDATE')then
+		
 		if(new.id_funcionario <> old.id_funcionario)then
 			select n_dependentes into n_dep from funcionario as f where f.cpf = new.id_funcionario;
+			select * into func from funcionario where funcionario.cpf=new.id_funcionario;
 			
-			if(n_dep>=limite_dep)then 
+			if((func.cargo='gerente' and n_dep>=limite_gerente) or (func.cargo='comum' and n_dep>=limite_comum))then 
 				raise exception 'novo funcionario ja esta no limite de dependentes';
 				return null;
 			end if;
