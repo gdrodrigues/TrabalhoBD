@@ -22,7 +22,7 @@ begin
 			raise exception 'O emprestimo só pode ser feito por conta com saldo<=0';
 			return null;
 		elsif new.valor>r1.limite then
-			raise exception 'valor maior que seu limite';
+			raise exception 'valor de emprestimo maior que seu limite';
 			return null;
 		end if;
 	
@@ -31,9 +31,8 @@ begin
 		return new;
 		
 	elsif new.tipo = 'transferencia' then
-		select * into r2 from conta where new.conta_cliente2 = conta.id;
-		
-		if r2=null then
+	
+		if new.conta_cliente2<0 then
 			raise exception 'o tipo trasnferencia requer duas contas';
 			return null;
 			
